@@ -22,14 +22,18 @@ func main() {
 
 	reader, writer, err := getReaderAndWriter()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error: ", err)
-		os.Exit(1)
+		_, err1 := fmt.Fprintln(os.Stderr, "Error: ", err)
+		if err1 != nil {
+			fmt.Println(err1)
+		}
 	}
 	handler := &lab2.ComputeHandler{Reader: reader, Writer: writer}
 	err = handler.Compute()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error: ", err)
-		os.Exit(1)
+		_, err1 := fmt.Fprintln(os.Stderr, "Error: ", err)
+		if err1 != nil {
+			fmt.Println(err1)
+		}
 	}
 }
 
