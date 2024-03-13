@@ -1,11 +1,13 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	lab2 "github.com/mysteriousgophers/architecture-lab-2"
 	"io"
 	"os"
+	"strings"
 )
 
 var (
@@ -38,5 +40,30 @@ func main() {
 }
 
 func getReaderAndWriter() (io.Reader, io.Writer, error) {
-	return nil, nil, nil
+	if inputExpression == "" && inputFile == "" {
+		return nil, nil, errors.New("no provided expression")
+	} else if inputExpression != "" && inputFile != "" {
+		return nil, nil, errors.New("provided expression in both ways")
+	}
+	var reader io.Reader
+	var writer io.Writer
+	if inputFile != "" {
+		file, err := os.Open(inputFile)
+		if err != nil {
+			return nil, nil, errors.New("error reading file")
+		}
+		reader = file
+	} else {
+		reader = strings.NewReader(inputExpression)
+	}
+	if outputFile != "" {
+		file, err := os.OpenFile(outputFile, os.O_WRONLY, os.ModeAppend)
+		if err != nil {
+			return nil, nil, errors.New("error opening file to write output to")
+		}
+		writer = file
+	} else {
+		writer = os.Stdout
+	}
+	return reader, writer, nil
 }
