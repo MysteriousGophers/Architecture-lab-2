@@ -10,7 +10,7 @@ type BinaryTreeNode struct {
 	Right *BinaryTreeNode
 }
 
-func ConstructBinaryTree(postfixExpr string) *BinaryTreeNode {
+func constructBinaryTree(postfixExpr string) *BinaryTreeNode {
 	stack := make([]*BinaryTreeNode, 0)
 
 	tokens := strings.Fields(postfixExpr)
@@ -37,10 +37,10 @@ func isOperator(token string) bool {
 	return operators[token]
 }
 
-func InorderTraversal(root *BinaryTreeNode) string {
+func inorderTraversal(root *BinaryTreeNode) string {
 	if root != nil {
-		left := InorderTraversal(root.Left)
-		right := InorderTraversal(root.Right)
+		left := inorderTraversal(root.Left)
+		right := inorderTraversal(root.Right)
 		return left + root.Value + " " + right
 	}
 	return ""
@@ -68,7 +68,7 @@ func InorderTraversal(root *BinaryTreeNode) string {
 //	    fmt.Println("Infix Expression:", infixExpression)
 //	}
 func PostfixToInfix(expression string) (string, error) {
-	root := ConstructBinaryTree(expression)
-	result := InorderTraversal(root)
+	root := constructBinaryTree(expression)
+	result := inorderTraversal(root)
 	return strings.TrimSpace(result), nil
 }
