@@ -4,24 +4,35 @@ import (
 	"flag"
 	"fmt"
 	lab2 "github.com/mysteriousgophers/architecture-lab-2"
+	"io"
+	"os"
 )
 
 var (
-	inputExpression = flag.String("e", "", "Expression to compute")
-	// TODO: Add other flags support for input and output configuration.
+	inputExpression string
+	inputFile       string
+	outputFile      string
 )
 
 func main() {
+	flag.StringVar(&inputExpression, "e", "", "Expression to compute")
+	flag.StringVar(&inputFile, "f", "", "File to read from")
+	flag.StringVar(&outputFile, "o", "", "File to write to")
 	flag.Parse()
 
-	// TODO: Change this to accept input from the command line arguments as described in the task and
-	//       output the results using the ComputeHandler instance.
-	//       handler := &lab2.ComputeHandler{
-	//           Input: {construct io.Reader according the command line parameters},
-	//           Output: {construct io.Writer according the command line parameters},
-	//       }
-	//       err := handler.Compute()
+	reader, writer, err := getReaderAndWriter()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error: ", err)
+		os.Exit(1)
+	}
+	handler := &lab2.ComputeHandler{Reader: reader, Writer: writer}
+	err = handler.Compute()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error: ", err)
+		os.Exit(1)
+	}
+}
 
-	res, _ := lab2.PostfixToInfix("+ 2 2")
-	fmt.Println(res)
+func getReaderAndWriter() (io.Reader, io.Writer, error) {
+	return nil, nil, nil
 }
