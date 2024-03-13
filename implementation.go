@@ -33,7 +33,7 @@ func ConstructBinaryTree(postfixExpr string) *BinaryTreeNode {
 }
 
 func isOperator(token string) bool {
-	operators := map[string]bool{"+": true, "-": true, "*": true, "/": true}
+	operators := map[string]bool{"+": true, "-": true, "*": true, "/": true, "^": true}
 	return operators[token]
 }
 

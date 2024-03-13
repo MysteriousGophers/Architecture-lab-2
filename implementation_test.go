@@ -40,6 +40,12 @@ func (s *MySuite) TestPostfixToInfixSimpleDivision(c *C) {
 	c.Assert(result, Equals, "4 / 2")
 }
 
+func (s *MySuite) TestPostfixToInfixSimpleExponentiation(c *C) {
+	result, err := PostfixToInfix("4 2 ^")
+	c.Assert(err, IsNil)
+	c.Assert(result, Equals, "4 ^ 2")
+}
+
 func ExamplePrefixToPostfix() {
 	res, _ := PostfixToInfix("2 2 +")
 	fmt.Println(res)
