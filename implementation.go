@@ -46,8 +46,27 @@ func InorderTraversal(root *BinaryTreeNode) string {
 	return ""
 }
 
-// TODO: document this function.
-// PostfixToInfix converts
+// PostfixToInfix converts a postfix expression to an infix expression.
+// It takes a postfix expression as input, constructs a binary tree
+// based on the expression, performs an inorder traversal on the tree,
+// and returns the resulting infix expression.
+//
+// Parameters:
+//   - expression: A string representing the postfix expression to be converted.
+//
+// Returns:
+//   - string: The resulting infix expression.
+//   - error: An error is returned if there is an issue with the conversion process.
+//
+// Example:
+//
+//	postfixExpression := "3 4 + 2 *"
+//	infixExpression, err := PostfixToInfix(postfixExpression)
+//	if err != nil {
+//	    fmt.Println("Error:", err)
+//	} else {
+//	    fmt.Println("Infix Expression:", infixExpression)
+//	}
 func PostfixToInfix(expression string) (string, error) {
 	root := ConstructBinaryTree(expression)
 	result := InorderTraversal(root)
