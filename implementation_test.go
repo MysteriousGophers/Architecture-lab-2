@@ -6,11 +6,11 @@ import (
 )
 
 func TestPrefixToPostfix(t *testing.T) {
-	PrefixToPostfix("+ 5 * - 4 2 3")
+	PostfixToInfix("+ 5 * - 4 2 3")
 }
 
 func ExamplePrefixToPostfix() {
-	res, _ := PrefixToPostfix("+ 2 2")
+	res, _ := PostfixToInfix("+ 2 2")
 	fmt.Println(res)
 
 	// Output:
