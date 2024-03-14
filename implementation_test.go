@@ -6,6 +6,11 @@ import (
 	"testing"
 )
 
+type testCase struct {
+	input    string
+	expected string
+}
+
 func Test(t *testing.T) { TestingT(t) }
 
 type MySuite struct{}
@@ -31,34 +36,21 @@ func (s *MySuite) TestPostfixToInfixValidationUnsupportedInput(c *C) {
 	c.Assert(err, NotNil)
 }
 
-func (s *MySuite) TestPostfixToInfixSimpleAddition(c *C) {
-	result, err := PostfixToInfix("254 256 +")
-	c.Assert(err, IsNil)
-	c.Assert(result, Equals, "254 + 256")
-}
+func (s *MySuite) TestPostfixToInfixSimpleExpressions(c *C) {
+	testCases := []testCase{
+		{"7 2 + 4 *", "(7 + 2) * 4"},
+		{"256 128 - 4 /", "(256 - 128) / 4"},
+		{"256 128 / 4 *", "256 / 128 * 4"},
+		{"7 2 / 4 +", "7 / 2 + 4"},
+		{"7 2 - 4 3 + ^", "(7 - 2) ^ (4 + 3)"},
+		{"7 2 * 4 2 / ^", "(7 * 2) ^ (4 / 2)"},
+	}
 
-func (s *MySuite) TestPostfixToInfixSimpleSubtraction(c *C) {
-	result, err := PostfixToInfix("4 1 -")
-	c.Assert(err, IsNil)
-	c.Assert(result, Equals, "4 - 1")
-}
-
-func (s *MySuite) TestPostfixToInfixSimpleMultiplication(c *C) {
-	result, err := PostfixToInfix("4 5 *")
-	c.Assert(err, IsNil)
-	c.Assert(result, Equals, "4 * 5")
-}
-
-func (s *MySuite) TestPostfixToInfixSimpleDivision(c *C) {
-	result, err := PostfixToInfix("4 2 /")
-	c.Assert(err, IsNil)
-	c.Assert(result, Equals, "4 / 2")
-}
-
-func (s *MySuite) TestPostfixToInfixSimpleExponentiation(c *C) {
-	result, err := PostfixToInfix("4 2 ^")
-	c.Assert(err, IsNil)
-	c.Assert(result, Equals, "4 ^ 2")
+	for _, e := range testCases {
+		result, err := PostfixToInfix(e.input)
+		c.Assert(err, IsNil)
+		c.Assert(result, Equals, e.expected)
+	}
 }
 
 func ExamplePostfixToInfix() {
