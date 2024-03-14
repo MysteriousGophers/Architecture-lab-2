@@ -33,7 +33,7 @@ func PostfixToInfix(input string) (string, error) {
 		return "", err
 	}
 	root := constructBinaryTree(input)
-	result := inorderTraversal(root)
+	result := toInfix(root)
 	return result, nil
 }
 
@@ -97,6 +97,10 @@ func getPriority(token string) int {
 		return 3
 	}
 	return 10
+}
+
+func toInfix(root *binaryTreeNode) string {
+	return inorderTraversal(root)
 }
 
 func inorderTraversal(root *binaryTreeNode) string {
