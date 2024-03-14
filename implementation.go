@@ -34,7 +34,7 @@ func PostfixToInfix(input string) (string, error) {
 	}
 	root := constructBinaryTree(input)
 	result := inorderTraversal(root)
-	return strings.TrimSpace(result), nil
+	return result, nil
 }
 
 func validate(input string) error {
@@ -87,11 +87,31 @@ func isOperator(token string) bool {
 	return operators[token]
 }
 
+func getPriority(token string) int {
+	switch token {
+	case "+", "-":
+		return 1
+	case "*", "/":
+		return 2
+	case "^":
+		return 3
+	}
+	return 10
+}
+
 func inorderTraversal(root *BinaryTreeNode) string {
 	if root != nil {
 		left := inorderTraversal(root.Left)
 		right := inorderTraversal(root.Right)
-		return left + root.Value + " " + right
+
+		if root.Left != nil && getPriority(root.Value) > getPriority(root.Left.Value) {
+			left = "(" + left + ")"
+		}
+		if root.Right != nil && getPriority(root.Value) > getPriority(root.Right.Value) {
+			right = "(" + right + ")"
+		}
+
+		return strings.TrimSpace(left + " " + root.Value + " " + right)
 	}
 	return ""
 }
