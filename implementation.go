@@ -104,10 +104,10 @@ func inorderTraversal(root *BinaryTreeNode) string {
 		left := inorderTraversal(root.Left)
 		right := inorderTraversal(root.Right)
 
-		if root.Left != nil && getPriority(root.Value) > getPriority(root.Left.Value) {
+		if root.Left != nil && getPriority(root.Value) >= getPriority(root.Left.Value) {
 			left = "(" + left + ")"
 		}
-		if root.Right != nil && getPriority(root.Value) > getPriority(root.Right.Value) {
+		if root.Right != nil && getPriority(root.Value) >= getPriority(root.Right.Value) {
 			right = "(" + right + ")"
 		}
 

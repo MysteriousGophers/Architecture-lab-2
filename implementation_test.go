@@ -53,6 +53,21 @@ func (s *MySuite) TestPostfixToInfixSimpleExpressions(c *C) {
 	}
 }
 
+func (s *MySuite) TestPostfixToInfixComplexExpressions(c *C) {
+	testCases := []testCase{
+		{"3 4 + 5 * 6 - 7 / 8 + 9 *", "(((3 + 4) * 5 - 6) / 7 + 8) * 9"},
+		{"4 5 * 3 2 - 1 2 / + - 6 7 + *", "(4 * 5 - ((3 - 2) + 1 / 2)) * (6 + 7)"},
+		{"7 3 / 6 2 * + 4 2 * - 8 9 + /", "((7 / 3 + 6 * 2) - 4 * 2) / (8 + 9)"},
+		{"9 3 / 2 1 * 7 + 8 4 / - + 5 6 * -", "(9 / 3 + ((2 * 1 + 7) - 8 / 4)) - 5 * 6"},
+	}
+
+	for _, e := range testCases {
+		result, err := PostfixToInfix(e.input)
+		c.Assert(err, IsNil)
+		c.Assert(result, Equals, e.expected)
+	}
+}
+
 func ExamplePostfixToInfix() {
 	res, _ := PostfixToInfix("2 2 +")
 	fmt.Println(res)
