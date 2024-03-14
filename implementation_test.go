@@ -16,6 +16,21 @@ func (s *MySuite) TestBob(c *C) {
 	c.Assert("bob", Equals, "bob")
 }
 
+func (s *MySuite) TestPostfixToInfixValidationEmptyInput(c *C) {
+	_, err := PostfixToInfix("")
+	c.Assert(err, NotNil)
+}
+
+func (s *MySuite) TestPostfixToInfixValidationBlankInput(c *C) {
+	_, err := PostfixToInfix(" \n")
+	c.Assert(err, NotNil)
+}
+
+func (s *MySuite) TestPostfixToInfixValidationUnsupportedInput(c *C) {
+	_, err := PostfixToInfix("5 4 &")
+	c.Assert(err, NotNil)
+}
+
 func (s *MySuite) TestPostfixToInfixSimpleAddition(c *C) {
 	result, err := PostfixToInfix("254 256 +")
 	c.Assert(err, IsNil)

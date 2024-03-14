@@ -1,8 +1,58 @@
 package lab2
 
 import (
+	"fmt"
 	"strings"
+	"unicode"
 )
+
+// PostfixToInfix converts a postfix expression to an infix expression.
+// It takes a postfix expression as input, constructs a binary tree
+// based on the expression, performs an inorder traversal on the tree,
+// and returns the resulting infix expression.
+//
+// Parameters:
+//   - expression: A string representing the postfix expression to be converted.
+//
+// Returns:
+//   - string: The resulting infix expression.
+//   - error: An error is returned if there is an issue with the conversion process.
+//
+// Example:
+//
+//	postfixExpression := "3 4 + 2 *"
+//	infixExpression, err := PostfixToInfix(postfixExpression)
+//	if err != nil {
+//	    fmt.Println("Error:", err)
+//	} else {
+//	    fmt.Println("Infix Expression:", infixExpression)
+//	}
+func PostfixToInfix(input string) (string, error) {
+	err := validate(input)
+	if err != nil {
+		return "", err
+	}
+	root := constructBinaryTree(input)
+	result := inorderTraversal(root)
+	return strings.TrimSpace(result), nil
+}
+
+func validate(input string) error {
+	if input == "" {
+		return fmt.Errorf("empty input")
+	}
+	if strings.TrimSpace(input) == "" {
+		return fmt.Errorf("blank input")
+	}
+	if strings.ContainsFunc(input, func(char rune) bool {
+		return !(unicode.IsNumber(char) ||
+			unicode.IsSpace(char) ||
+			isOperator(string(char)))
+	}) {
+		return fmt.Errorf("usupported input")
+	}
+	return nil
+}
 
 type BinaryTreeNode struct {
 	Value string
@@ -44,31 +94,4 @@ func inorderTraversal(root *BinaryTreeNode) string {
 		return left + root.Value + " " + right
 	}
 	return ""
-}
-
-// PostfixToInfix converts a postfix expression to an infix expression.
-// It takes a postfix expression as input, constructs a binary tree
-// based on the expression, performs an inorder traversal on the tree,
-// and returns the resulting infix expression.
-//
-// Parameters:
-//   - expression: A string representing the postfix expression to be converted.
-//
-// Returns:
-//   - string: The resulting infix expression.
-//   - error: An error is returned if there is an issue with the conversion process.
-//
-// Example:
-//
-//	postfixExpression := "3 4 + 2 *"
-//	infixExpression, err := PostfixToInfix(postfixExpression)
-//	if err != nil {
-//	    fmt.Println("Error:", err)
-//	} else {
-//	    fmt.Println("Infix Expression:", infixExpression)
-//	}
-func PostfixToInfix(expression string) (string, error) {
-	root := constructBinaryTree(expression)
-	result := inorderTraversal(root)
-	return strings.TrimSpace(result), nil
 }
