@@ -54,19 +54,19 @@ func validate(input string) error {
 	return nil
 }
 
-type BinaryTreeNode struct {
-	Value string
-	Left  *BinaryTreeNode
-	Right *BinaryTreeNode
+type binaryTreeNode struct {
+	value string
+	left  *binaryTreeNode
+	right *binaryTreeNode
 }
 
-func constructBinaryTree(postfixExpr string) *BinaryTreeNode {
-	stack := make([]*BinaryTreeNode, 0)
+func constructBinaryTree(postfixExpr string) *binaryTreeNode {
+	stack := make([]*binaryTreeNode, 0)
 
 	tokens := strings.Fields(postfixExpr)
 
 	for _, token := range tokens {
-		node := &BinaryTreeNode{Value: token}
+		node := &binaryTreeNode{value: token}
 
 		if isOperator(token) {
 			right := stack[len(stack)-1]
@@ -74,8 +74,8 @@ func constructBinaryTree(postfixExpr string) *BinaryTreeNode {
 			left := stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
 
-			node.Left = left
-			node.Right = right
+			node.left = left
+			node.right = right
 		}
 		stack = append(stack, node)
 	}
@@ -99,19 +99,19 @@ func getPriority(token string) int {
 	return 10
 }
 
-func inorderTraversal(root *BinaryTreeNode) string {
+func inorderTraversal(root *binaryTreeNode) string {
 	if root != nil {
-		left := inorderTraversal(root.Left)
-		right := inorderTraversal(root.Right)
+		left := inorderTraversal(root.left)
+		right := inorderTraversal(root.right)
 
-		if root.Left != nil && getPriority(root.Value) >= getPriority(root.Left.Value) {
+		if root.left != nil && getPriority(root.value) >= getPriority(root.left.value) {
 			left = "(" + left + ")"
 		}
-		if root.Right != nil && getPriority(root.Value) >= getPriority(root.Right.Value) {
+		if root.right != nil && getPriority(root.value) >= getPriority(root.right.value) {
 			right = "(" + right + ")"
 		}
 
-		return strings.TrimSpace(left + " " + root.Value + " " + right)
+		return strings.TrimSpace(left + " " + root.value + " " + right)
 	}
 	return ""
 }
