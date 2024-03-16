@@ -1,7 +1,7 @@
 package lab2
 
 import (
-	"bufio"
+	"bytes"
 	"fmt"
 	"io"
 	"strings"
@@ -15,9 +15,15 @@ type ComputeHandler struct {
 }
 
 func (ch *ComputeHandler) Compute() error {
-	reader := bufio.NewReader(ch.Input)
-	input, _ := reader.ReadString('\n')
-	formattedInput := strings.TrimRight(input, "\n")
+	buffer := new(bytes.Buffer)
+	_, readErr := buffer.ReadFrom(ch.Input)
+
+	if readErr != nil {
+		fmt.Printf("Error reading input: %v\n", readErr)
+		return readErr
+	}
+
+	formattedInput := strings.TrimRight(buffer.String(), "\n")
 	result, err := PostfixToInfix(formattedInput)
 	if err != nil {
 		fmt.Fprintln(ch.Output, err)

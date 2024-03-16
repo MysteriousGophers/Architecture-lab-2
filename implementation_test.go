@@ -13,30 +13,30 @@ type testCase struct {
 
 func Test(t *testing.T) { TestingT(t) }
 
-type MySuite struct{}
+type ImplementationSuite struct{}
 
-var _ = Suite(&MySuite{})
+var _ = Suite(&ImplementationSuite{})
 
-func (s *MySuite) TestBob(c *C) {
+func (s *ImplementationSuite) TestBob(c *C) {
 	c.Assert("bob", Equals, "bob")
 }
 
-func (s *MySuite) TestPostfixToInfixValidationEmptyInput(c *C) {
+func (s *ImplementationSuite) TestPostfixToInfixValidationEmptyInput(c *C) {
 	_, err := PostfixToInfix("")
 	c.Assert(err, NotNil)
 }
 
-func (s *MySuite) TestPostfixToInfixValidationBlankInput(c *C) {
+func (s *ImplementationSuite) TestPostfixToInfixValidationBlankInput(c *C) {
 	_, err := PostfixToInfix(" \n")
 	c.Assert(err, NotNil)
 }
 
-func (s *MySuite) TestPostfixToInfixValidationUnsupportedInput(c *C) {
+func (s *ImplementationSuite) TestPostfixToInfixValidationUnsupportedInput(c *C) {
 	_, err := PostfixToInfix("5 4 &")
 	c.Assert(err, NotNil)
 }
 
-func (s *MySuite) TestPostfixToInfixSimpleExpressions(c *C) {
+func (s *ImplementationSuite) TestPostfixToInfixSimpleExpressions(c *C) {
 	testCases := []testCase{
 		{"7 2 + 4 *", "(7 + 2) * 4"},
 		{"256 128 - 4 /", "(256 - 128) / 4"},
@@ -53,7 +53,7 @@ func (s *MySuite) TestPostfixToInfixSimpleExpressions(c *C) {
 	}
 }
 
-func (s *MySuite) TestPostfixToInfixComplexExpressions(c *C) {
+func (s *ImplementationSuite) TestPostfixToInfixComplexExpressions(c *C) {
 	testCases := []testCase{
 		{"3 4 + 5 * 6 - 7 / 8 + 9 *", "(((3 + 4) * 5 - 6) / 7 + 8) * 9"},
 		{"4 5 * 3 2 - 1 2 / + - 6 7 + *", "(4 * 5 - (3 - 2 + 1 / 2)) * (6 + 7)"},
