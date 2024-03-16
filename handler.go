@@ -17,18 +17,16 @@ type ComputeHandler struct {
 func (ch *ComputeHandler) Compute() error {
 	buffer := new(bytes.Buffer)
 	_, readErr := buffer.ReadFrom(ch.Input)
-
 	if readErr != nil {
-		fmt.Printf("Error reading input: %v\n", readErr)
 		return readErr
 	}
 
 	formattedInput := strings.TrimRight(buffer.String(), "\n")
 	result, err := PostfixToInfix(formattedInput)
 	if err != nil {
-		fmt.Fprintln(ch.Output, err)
-	} else {
-		fmt.Fprintln(ch.Output, result)
+		return err
 	}
-	return err
+
+	fmt.Fprintln(ch.Output, result)
+	return nil
 }
