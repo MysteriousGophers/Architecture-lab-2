@@ -24,7 +24,7 @@ func (ch *ComputeHandler) Compute() error {
 	formattedInput := strings.TrimRight(buffer.String(), "\n")
 	result, err := PostfixToInfix(formattedInput)
 	if err != nil {
-		return err
+		return nil
 	}
 
 	fmt.Fprintln(ch.Output, result)
