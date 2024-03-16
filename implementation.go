@@ -12,7 +12,7 @@ import (
 // and returns the resulting infix expression.
 //
 // Parameters:
-//   - expression: A string representing the postfix expression to be converted.
+//   - input string: A string representing the postfix expression to be converted.
 //
 // Returns:
 //   - string: The resulting infix expression.
