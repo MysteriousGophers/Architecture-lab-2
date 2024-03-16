@@ -14,8 +14,8 @@ func (s *HandlerSuite) TestCorrectInput(c *C) {
 	expected := "3 + 5\n"
 	output := bytes.NewBuffer(nil)
 	handler := ComputeHandler{
-		Input:  strings.NewReader("3 5 +"),
-		Output: output,
+		Reader: strings.NewReader("3 5 +"),
+		Writer: output,
 	}
 	err := handler.Compute()
 
@@ -26,8 +26,8 @@ func (s *HandlerSuite) TestCorrectInput(c *C) {
 func (s *HandlerSuite) TestIncorrectInput(c *C) {
 	output := bytes.NewBuffer(nil)
 	handler := ComputeHandler{
-		Input:  strings.NewReader("3 5 ||"),
-		Output: output,
+		Reader: strings.NewReader("3 5 ||"),
+		Writer: output,
 	}
 	err := handler.Compute()
 

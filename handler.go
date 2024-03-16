@@ -10,13 +10,13 @@ import (
 // ComputeHandler should be constructed with input io.Reader and output io.Writer.
 // Its Compute() method should read the expression from input and write the computed result to the output.
 type ComputeHandler struct {
-	Input  io.Reader
-	Output io.Writer
+	Reader io.Reader
+	Writer io.Writer
 }
 
 func (ch *ComputeHandler) Compute() error {
 	buffer := new(bytes.Buffer)
-	_, readErr := buffer.ReadFrom(ch.Input)
+	_, readErr := buffer.ReadFrom(ch.Reader)
 	if readErr != nil {
 		return readErr
 	}
@@ -27,6 +27,6 @@ func (ch *ComputeHandler) Compute() error {
 		return err
 	}
 
-	fmt.Fprintln(ch.Output, result)
+	fmt.Fprintln(ch.Writer, result)
 	return nil
 }
