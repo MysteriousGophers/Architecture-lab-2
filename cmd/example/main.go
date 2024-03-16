@@ -24,18 +24,14 @@ func main() {
 
 	reader, writer, err := getReaderAndWriter()
 	if err != nil {
-		_, err1 := fmt.Fprintln(os.Stderr, "Error: ", err)
-		if err1 != nil {
-			fmt.Println(err1)
-		}
+		fmt.Fprintln(os.Stderr, "Error: ", err)
+		os.Exit(1)
 	}
 	handler := &lab2.ComputeHandler{Reader: reader, Writer: writer}
 	err = handler.Compute()
 	if err != nil {
-		_, err1 := fmt.Fprintln(os.Stderr, "Error: ", err)
-		if err1 != nil {
-			fmt.Println(err1)
-		}
+		fmt.Fprintln(os.Stderr, "Error: ", err)
+		os.Exit(1)
 	}
 }
 
@@ -57,7 +53,7 @@ func getReaderAndWriter() (io.Reader, io.Writer, error) {
 		reader = strings.NewReader(inputExpression)
 	}
 	if outputFile != "" {
-		file, err := os.OpenFile(outputFile, os.O_WRONLY, os.ModeAppend)
+		file, err := os.OpenFile(outputFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			return nil, nil, errors.New("error opening file to write output to")
 		}
